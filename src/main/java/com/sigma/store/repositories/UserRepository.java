@@ -1,7 +1,8 @@
-package com.codewithmosh.store.repositories;
+package com.sigma.store.repositories;
 
-import com.codewithmosh.store.entities.User;
 import org.springframework.data.repository.CrudRepository;
+
+import com.sigma.store.entities.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 }
