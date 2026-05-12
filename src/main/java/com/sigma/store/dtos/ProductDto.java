@@ -2,9 +2,11 @@ package com.sigma.store.dtos;
 
 import java.math.BigDecimal;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@AllArgsConstructor
+@Getter
 public class ProductDto {
     private Long id;
     private String name;
