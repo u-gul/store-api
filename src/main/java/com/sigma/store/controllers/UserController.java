@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.sigma.store.dtos.ChangePasswordRequest;
 import com.sigma.store.dtos.RegisterUserRequest;
 import com.sigma.store.dtos.UpdateUserRequest;
 import com.sigma.store.dtos.UserDto;
@@ -96,6 +97,25 @@ public class UserController {
         }
 
         userRepository.delete(user);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{id}/change-password")
+    public ResponseEntity<Void> changePassword(
+            @PathVariable(name = "id") Long id,
+            @RequestBody ChangePasswordRequest request) {
+        var user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (!user.getPassword().equals(request.getOldPassword())) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        user.setPassword(request.getNewPassword());
+        userRepository.save(user);
+
         return ResponseEntity.noContent().build();
     }
 }
