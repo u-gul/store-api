@@ -27,6 +27,7 @@ import com.sigma.store.entities.User;
 import com.sigma.store.mappers.UserMapper;
 import com.sigma.store.repositories.UserRepository;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 @RestController
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@RequestBody RegisterUserRequest request,
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
         User user = userMapper.toEntity(request);
         userRepository.save(user);
