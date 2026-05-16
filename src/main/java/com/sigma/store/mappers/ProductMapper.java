@@ -8,6 +8,9 @@ import com.sigma.store.entities.Product;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+
     @Mapping(target = "categoryId", source = "category.id")
     ProductDto toDto(Product product);
+
+    Product toEntity(ProductDto productDto);
 }
