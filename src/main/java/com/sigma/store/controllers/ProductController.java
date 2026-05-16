@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -92,5 +93,16 @@ public class ProductController {
         productRepository.save(product);
         productDto.setId(product.getId());
         return ResponseEntity.ok(productDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        var product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        productRepository.delete(product);
+        return ResponseEntity.noContent().build();
     }
 }
