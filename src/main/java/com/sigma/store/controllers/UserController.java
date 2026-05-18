@@ -66,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody RegisterUserRequest request,
+    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
         User user = userMapper.toEntity(request);
         userRepository.save(user);
