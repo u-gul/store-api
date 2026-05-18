@@ -1,5 +1,7 @@
 package com.sigma.store.dtos;
 
+import com.sigma.store.validation.LowerCase;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,5 +20,6 @@ public class RegisterUserRequest {
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, max = 25, message = "Password must be between 6 to 25 characters")
+    @LowerCase
     private String password;
 }
