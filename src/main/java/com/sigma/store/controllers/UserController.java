@@ -2,6 +2,7 @@ package com.sigma.store.controllers;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.data.domain.Sort;
@@ -66,8 +67,12 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> registerUser(@Valid @RequestBody RegisterUserRequest request,
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterUserRequest request,
             UriComponentsBuilder uriBuilder) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            return ResponseEntity.badRequest().body(
+                    Map.of("email", "Email is already registered"));
+        }
         User user = userMapper.toEntity(request);
         userRepository.save(user);
 
@@ -84,7 +89,6 @@ public class UserController {
         if (user == null) {
             return ResponseEntity.notFound().build();
         }
-
         userMapper.update(updateUserRequest, user);
         userRepository.save(user);
         return ResponseEntity.ok(userMapper.toDto(user));
