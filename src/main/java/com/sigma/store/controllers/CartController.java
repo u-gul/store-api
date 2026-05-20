@@ -9,6 +9,7 @@ import com.sigma.store.mappers.CartMapper;
 import com.sigma.store.repositories.CartRepository;
 import com.sigma.store.repositories.ProductRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -71,7 +72,10 @@ public class CartController {
         }
 
         cartRepository.save(cart);
+        var cartItemDto = cartMapper.toDto(cartItem);
 
-        return ResponseEntity.ok(null);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(cartItemDto);
     }
 }
