@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -23,6 +24,20 @@ public class Cart {
     @Column(name = "date_created", insertable = false, updatable = false)
     private LocalDate dateCreated;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "cart", cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Set<CartItem> items = new LinkedHashSet<>();
+
+    public BigDecimal getTotalPrice() {
+
+        BigDecimal total = BigDecimal.ZERO;
+        for (var item : items) {
+            total = total.add(item.getTotalPrice());
+        }
+
+        return total;
+
+//        return items.stream()
+//                .map(CartItem::getTotalPrice)
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }
